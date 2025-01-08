@@ -46,7 +46,33 @@ async function run() {
         const marathon = await marathon_collection.insertOne(marathon_data);
         res.send(marathon);
     });
-    
+
+    app.put('/marathon_update/:id', async(req, res) => {
+        const marathon_update_id = req.params.id;
+        const marathon_data = req.body;
+
+        const marathon_filter = {_id: new ObjectId(marathon_update_id)};
+        const marathon_options = {upsert: true};
+        const marathon_update = {
+            $set: {
+                marathonTitle: marathon_data.marathonTitle,
+                marathonImage: marathon_data.marathonImage,
+                registrationStartDate: marathon_data.registrationStartDate,
+                registrationEndDate: marathon_data.registrationEndDate,
+                marathonStartDate: marathon_data.marathonStartDate,
+                location: marathon_data.location,
+                runningDistance: marathon_data.runningDistance,
+                description: marathon_data.description,
+                username: marathon_data.username,
+                email: marathon_data.email,
+                regCount: marathon_data.regCount
+            },
+        };
+
+        const marathon_updated = await marathon_collection.updateOne(marathon_filter, marathon_update, marathon_options);
+        res.send(marathon_updated);
+    });
+
     app.delete('/marathon_delete/:id', async(req, res) => {
         const marathon_delete_id = req.params.id
         const marathon_query = {_id: new ObjectId(marathon_delete_id)};
