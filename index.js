@@ -1,5 +1,5 @@
 import express from 'express';
-import mongodb from 'mongodb';
+import mongodb, { ObjectId } from 'mongodb';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -40,10 +40,18 @@ async function run() {
         res.send(marathons);
     });
 
+    
     app.post('/marathon', async(req, res) => {
         const marathon_data = req.body;
         const marathon = await marathon_collection.insertOne(marathon_data);
         res.send(marathon);
+    });
+    
+    app.delete('/marathon_delete/:id', async(req, res) => {
+        const marathon_delete_id = req.params.id
+        const marathon_query = {_id: new ObjectId(marathon_delete_id)};
+        const remaining_marathon = await marathon_collection.deleteOne(marathon_query);
+        res.send(remaining_marathon);
     });
 
     // Send a ping to confirm a successful connection
