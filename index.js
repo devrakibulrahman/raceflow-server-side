@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+app.use(cors());
+app.use(express.json());
+
 const app = express();
 const port = process.env.PORT || 2000;
 const username = process.env.DB_USER;
