@@ -34,6 +34,12 @@ async function run() {
     const marathon_collection = client.db('raceflow').collection('marathons');
 
     //? marathons apis ----------------------------------------------------------->
+    app.get('/marathons', async(req, res) => {
+        const marathons_data = marathon_collection.find();
+        const marathons = await marathons_data.toArray();
+        res.send(marathons);
+    });
+
     app.post('/marathon', async(req, res) => {
         const marathon_data = req.body;
         const marathon = await marathon_collection.insertOne(marathon_data);
