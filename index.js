@@ -34,10 +34,11 @@ async function run() {
     const marathon_collection = client.db('raceflow').collection('marathons');
 
     //? marathons apis ----------------------------------------------------------->
-    // app.post('/marathon', (req, res) => {
-    //     const marathon_data = req.body;
-    //     console.log(marathon_data);
-    // });
+    app.post('/marathon', async(req, res) => {
+        const marathon_data = req.body;
+        const marathon = await marathon_collection.insertOne(marathon_data);
+        res.send(marathon);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
