@@ -40,6 +40,12 @@ async function run() {
         res.send(marathons);
     });
 
+    app.get('/marathon/:id', async(req, res) => {
+        const marathon_id = req.params.id;
+        const marathon_filter = {_id: new ObjectId(marathon_id)};
+        const marathon = await marathon_collection.findOne(marathon_filter);
+        res.send(marathon);
+    });
     
     app.post('/marathon', async(req, res) => {
         const marathon_data = req.body;
